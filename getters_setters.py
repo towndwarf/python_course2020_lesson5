@@ -2,10 +2,11 @@ class SampleClass:
     def __init__(self, a):
         # private variable or property in Python
         self.__a = a
+        self.stam = a // 3
 
     # getter method to get the properties using an object
     def get_a(self):
-        return self.__a
+        return f"A: {self.__a}"
 
     # setter method to change the value 'a' using an object
     def set_a(self, a):
@@ -19,6 +20,10 @@ print(obj.get_a())
 # setting a new value to the 'a' using set_a() method
 obj.set_a(45)
 print(obj.get_a())
+
+print(obj.stam)
+obj.stam = 45
+
 
 
 # =================================================
@@ -90,6 +95,7 @@ obj = Property(23)
 print(obj.a)
 obj.a = 345
 print(obj.a)
+
 # =================================================
 
 

@@ -15,8 +15,6 @@ import matplotlib.dates as mdates
 import matplotlib.ticker as ticker
 from urllib.request import urlopen
 
-no_pages = 2
-
 
 def get_data(pageNo: str):
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0",
@@ -27,7 +25,7 @@ def get_data(pageNo: str):
     url = 'https://www.waterstones.com/books/bestsellers/sort/bestselling/page/'
     r = rq.get(url + pageNo, headers=headers)  # , proxies=proxies)
     content = r.content
-    soup = BeautifulSoup(content, 'features="lxml"')
+    soup = BeautifulSoup(content)  # , 'features="lxml"'
     # print(soup)
 
     alls = []
@@ -35,21 +33,39 @@ def get_data(pageNo: str):
     for d in soup.findAll('div',
                           attrs={'class': 'book-preview book-preview-grid-item span3 tablet-span6 mobile-span6'}):
         # print(d)
-        name = d.find('a', attrs={'class': 'title link-invert dotdotdot ddd-truncated'})
-        n = d.find('img', alt=True)
-        if n and len(n.attrs):
-            print('> ', n.attrs['alt'])
-        author = d.find('div', attrs={'class': 'author'})
+
+        # treat NAME
+        name = d.find('a', attrs={'class': 'title link-invert dotdotdot'})
+        name_is_not_ok = True
+        if name is not None:
+            name = name.text
+            if name.endswith("..."):
+                print('NAME was truncated', name)
+            else:
+                name_is_not_ok = False
+                print('NAME was scraped:', name)
+        else:
+            print('NAME was not OK, taking from image')
+
+        if name_is_not_ok:
+            # taking name from image
+            n = d.find('img', alt=True)
+            if n and len(n.attrs):
+                name = n.attrs['alt']
+                print('Name from image: ', n.attrs['alt'])
+        all1 = []
+        if type(name) is str and len(name) > 0:
+            # print(n[0]['alt'])
+            all1.append(name)
+        else:
+            all1.append("can`t get author")
+
+        author = d.find('span', attrs={'class': 'author'})
         rating = d.find('span', attrs={'class': 'star-rating'})
         price = d.find('span', attrs={'class': 'price'})
 
-        all1 = []
 
-        if name is not None:
-            # print(n[0]['alt'])
-            all1.append(n[0]['alt'])
-        else:
-            all1.append("unknown-product")
+
 
         if author is not None:
             # print(author.text)
@@ -60,6 +76,7 @@ def get_data(pageNo: str):
                 all1.append(author.text)
             else:
                 all1.append('0')
+
 
         if rating is not None:
             # print(rating.text)
@@ -77,13 +94,14 @@ def get_data(pageNo: str):
 
 
 results = []
+no_pages = 2
 for i in range(1, no_pages + 1):
     results.append(get_data(str(i)))
 flatten = lambda l: [item for sublist in l for item in sublist]
 df = pd.DataFrame(flatten(results), columns=['Book Name', 'Author', 'Rating', 'Price'])
 df.to_csv('books.csv', index=False, encoding='utf-8')
 
-df = pd.read_csv("amazon_products.csv")
-df.shape
-df.head(61)
-
+print('everything is awesome')
+# df = pd.read_csv("books.csv")
+# df.shape
+# df.head(61)

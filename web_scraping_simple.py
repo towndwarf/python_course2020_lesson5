@@ -1,5 +1,5 @@
 from lxml import html
-import web_scraping_base
+import requests as web_scraping_base
 
 page = web_scraping_base.get('https://www.gutenberg.org/wiki/Gutenberg:Contact_Information')
 print(page.content)

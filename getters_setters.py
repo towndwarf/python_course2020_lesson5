@@ -1,5 +1,4 @@
 class SampleClass:
-
     def __init__(self, a):
         # private variable or property in Python
         self.__a = a
@@ -89,8 +88,8 @@ class Property:
 # creating an object for the class 'Property'
 obj = Property(23)
 print(obj.a)
-
-
+obj.a = 345
+print(obj.a)
 # =================================================
 
 
@@ -116,3 +115,6 @@ class FinalClass:
 
 # creating an object for the 'FinalClass' class
 obj = FinalClass(12)
+print('FinalClass:', obj.a)
+obj.a = 345
+print('FinalClass:', obj.a)

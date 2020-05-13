@@ -16,6 +16,16 @@ import matplotlib.ticker as ticker
 from urllib.request import urlopen
 
 
+def trim_quotes_if_required(input: str) -> str:
+    if input.find(',') < 0:
+        input = input.strip('"')
+
+    ret = input.strip('\',\r\n \xa0£')
+    if ret.find(',') > 0:
+        ret = f'\"{ret}"'
+    return ret
+
+
 def get_data(page_no: str):
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0",
                "Accept-Encoding": "gzip, deflate",
@@ -57,7 +67,7 @@ def get_data(page_no: str):
         all1 = []
         if type(name) is str and len(name) > 0:
             # print(n[0]['alt'])
-            all1.append(name)
+            all1.append(trim_quotes_if_required(name))
         else:
             all1.append("can`t get author")
 
@@ -65,19 +75,15 @@ def get_data(page_no: str):
         rating = d.find('span', attrs={'class': 'star-rating'})
         price = d.find('span', attrs={'class': 'price'})
 
-
-
-
         if author is not None:
             # print(author.text)
-            all1.append(author.text)
+            all1.append(trim_quotes_if_required(author.text))
         elif author is None:
             author = d.find('span', attrs={'class': 'a-size-small a-color-base'})
             if author is not None:
-                all1.append(author.text)
+                all1.append(trim_quotes_if_required(author.text))
             else:
                 all1.append('0')
-
 
         if rating is not None:
             # print(rating.text)
@@ -87,20 +93,41 @@ def get_data(page_no: str):
 
         if price is not None:
             print('PRICE:', price.text)
-            all1.append(price.text)
+            all1.append(trim_quotes_if_required(price.text))
         else:
             all1.append('0')
         alls.append(all1)
     return alls
 
 
-results = []
+writable_lines = []
+writable_lines.append(','.join(['Book Name', 'Author', 'Rating', 'Price']) + "\n")
+
 no_pages = 2
 for i in range(1, no_pages + 1):
-    results.append(get_data(str(i)))
-flatten = lambda l: [item for sublist in l for item in sublist]
-df = pd.DataFrame(flatten(results), columns=['Book Name', 'Author', 'Rating', 'Price'])
-df.to_csv('books.csv', index=False, encoding='utf-8')
+    st = get_data(str(i))
+    for j in st:
+        writable_lines.append(','.join(j) + "\n")
+
+# flatten = lambda l: [item for sublist in l for item in sublist]
+# flatten(results)
+# df = pd.DataFrame(results, columns=['Book Name', 'Author', 'Rating', 'Price'])
+# df.to_csv('books.csv', index=False, encoding='utf-8')
+
+handle = open("books.csv", mode="w", encoding="utf-8")
+handle.writelines(writable_lines)
+handle.close()
+
+# to read csv file named "samplee"
+a = pd.read_csv("books.csv")
+
+# to save as html file
+# named as "Table"
+s = a.to_html("Table.htm")
+
+# assign it to a
+# variable (string)
+html_file = a.to_html()
 
 print('everything is awesome')
 # df = pd.read_csv("books.csv")

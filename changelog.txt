@@ -1,0 +1,325 @@
+SmartGit 7.2 preview 9 (2016-06-10)
+===================================
+New Features, Improvements
+--------------------------
+- Git:
+  - Branches: shows information for local branch with "broken" tracking
+  - Journal:
+    - ability to checkout develop
+    - Date column with smarter shorting if column is too narrow
+    - Log-like coloring
+    - added option to use different coloring for auxiliary branch
+  - Log: - performance improvements in case of many tags for file logs
+- Compare:
+  - Apply Lines allows to apply multiple lines for added blocks
+
+Fixed Bugs
+----------
+- Git:
+  - Commit: for amend-Commit & Push it is not offered to replace remote branch
+  - Journal: possible internal error
+  - Push: false-positive warning about non-fast-forward for merge commits
+- Hg:
+  - Journal: "The command has been aborted because of outdated commits" error
+- GUI:
+  - tree-control related internal error, e.g. when moving repository to new
+    group
+  - Branches view: misaligned layout of hosting provider icon on OS X
+  - Updater dialog (OS X): bold font causes text to move and be truncated
+  - Log, Commits: the comment border of a selected line looked ugly
+
+
+SmartGit 7.2 preview 8 (2016-06-06)
+===================================
+New Features, Improvements
+--------------------------
+- Git:
+  - Journal:
+    - following context commands are supported (especially useful with a
+      selected auxiliary branch): reset, cherry-pick, merge, rebase head to,
+      revert
+    - improved layout, e.g., if auxiliary branch is ahead of HEAD
+  - Log: option to open submodule log (not just submodule pointer)
+
+Fixed Bugs
+----------
+- Git:
+  - Journal:
+    - auxiliary branch not showing up after merge anymore
+    - possible intersection of merge commit's stub with connector to previous
+      commit
+  - Repository | Settings: option "Sign all commits" was incorrectly written
+  - bundled new Git version (Windows): renamed /etc/post-install tasks because
+    they usually fail because of file system permission problems
+- SVN: - Push: possible internal error
+- GUI: internal error collapsing/expanding tree node
+
+
+SmartGit 7.2 preview 7 (2016-05-31)
+===================================
+New Features, Improvements
+--------------------------
+- Git:
+  - Background Fetch:
+    - shows executed command and path
+    - should be enabled by default for the currently open
+      repositories (because the Journal can show incoming commits)
+  - Cherry Pick: Git's cherry-picking state is detected; support for aborting
+  - Log: performance improvements for many refs
+  - Push: forced-push-delay now needs to be enabled by setting
+    smartgit.push.delayOnForceDialog=true
+  - Refresh: symbolic links (junctions) are now also supported on Windows
+  - updated bundled Git to version 2.8.3 (Windows) and 2.8.1 (OS X)
+- GUI:
+  - Branches view: performance improvements for many refs
+  - Author columns are shortening if too narrow to show full name
+
+Fixed Bugs
+----------
+- Git:
+  - Branches:
+    - invalid displayed ref count if refs were shown in sections
+  - Changes view showed an error for selected uninitialized submodules
+  - Index Editor: failed to write index for UTF-16 encoded files (with
+    misleading error regarding mixed line endings)
+  - Journal:
+    - Move, Move & Squash did not show warning about modifying pushed commits
+    - Push Commits was broken
+    - having set auxiliary branch to <none>, it was reset to default, e.g.
+      develop, after restart
+    - concave jig-saw-puzzle part showed invalid color if row was selected
+    - showed tracking jig-saw-puzzle part for non-tracking branches
+    - possible non-existent parent connections were shown
+    - columns were too narrow when opening the first time
+  - Log:
+    - commits might still not alight properly to left for higher-priority
+      branches
+    - moving annotated tag by drag and drop lost annotation
+    - unexpected curves
+  - Push: no force check when using push.default=matching and having no
+    tracking configuration for current branch
+- Hg:
+  - directory log was broken for Mercurial 3.8
+- SVN:
+  - Branch, Delete: incorrectly offered to delete tracked/remote branch which
+    failed anyway
+- GitHub: "Could not connect to repository" error
+- GUI:
+  - (file) completion did not accept keypad-enter
+  - some table columns (e.g. in Commit dialog) were too narrow by default on
+    HiDPI screens
+- internal error launching SmartGit with Java 1.8
+
+
+SmartGit 7.2 preview 6 (2016-05-12)
+===================================
+New Features, Improvements
+--------------------------
+- Git:
+  - Cherry pick: uses "commit" option because this preserves author/date even
+    in case of conflicts
+  - Changes view: sometimes the changes are not appliable in both directions
+  - External tools: default external tool "Fast-forward merge" without
+    confirmation dialog
+  - Journal:
+    - added Reset as context menu item
+    - optionally shows one additional branch
+    - remembers table column widths
+  - Push: forced-push confirmation dialog now waits a few seconds as reminder
+  - Repository Settings: added GPG configuration options, e.g. to sign commits
+  - Submodule: Changes view shows details about selected commit(s)
+- Hg:
+  - Mercurial 3.7 - 3.8 are supported now
+
+Fixed Bugs
+----------
+- Git:
+  - Commit: "Bypass commit hook" option did not work for all commit variants
+  - Journal:
+    - Date column was missing
+    - pushed commits could not be modified after preferences option had been
+      toggled
+    - pushable (purely local) commits were falsly rejected as pushable
+  - Log: pending octopus merge was not properly showing up
+  - Push-To-dialog allowed forced push even if not enabled in preferences
+- Tray: no HiDPI-icons were used
+
+
+SmartGit 7.2 preview 5 (2016-04-29)
+===================================
+New Features, Improvements
+--------------------------
+- Git:
+  - Add Tag: option to sign annotated tag (requires installed GPG agent)
+  - Commit:
+    - option to skip hook
+    - if necessary, forced push is detected
+  - http(s) authentication: if a credentials helper already is defined,
+    SmartGit does not use its own credential storage
+  - Outgoing view:
+    - renamed to Journal
+    - shows simplified, compact current branch structure with incoming and
+      pushed commits
+- Compare/Conflict Solver: Apply Line(s)
+- GUI:
+  - Files view: added "Relative Path" column as replacement for "Name" and
+    "Relative Directory"
+  - Linux: zoom level should be automatically detected now
+  - replaced several dialogs with "Xxx + Remote" buttons with checkbox
+  - Preferences, Authentication: Del key now deletes selected credentials
+
+Fixed Bugs
+----------
+- Git:
+  - renaming directory: might fail if only changing the case (Windows)
+  - Log: possible internal error related to priorities
+  - Refresh: '?' in .gitignore did not match line terminators
+  - submodule refs may become reset unexpectedly
+- fresh installation did not contain any default tools
+- Compare/Conflict Solver: possible internal errors related to
+  "Apply Selection"
+
+
+SmartGit 7.2 preview 4 (2016-04-18)
+===================================
+New Features, Improvements
+--------------------------
+- Git
+  - Branches view:
+    - ability to delete current branch (which will check out the current
+      branch's commit instead)
+    - options to configure display of refs
+  - Commit: remembers previous messages in commit-notes history
+  - Log:
+    - tries to preserve the selected file, even after switching to a different
+      commit
+    - improved layout algorithm
+    - set VM property smartgit.log.graph.layoutActions=true to provide layout
+      tweak options
+  - Pull/others: "remote error: invalid username or password" is recognized as
+    authentication failure and hence the password needs to be entered again
+  - Refresh: added VM property smartgit.branch.remoteBranchExcludeRegEx to
+    specify remote branches that should be skipped for performance reasons
+  - added View | Show Files From Submodules
+- Preferences:
+  - Welcome dialog: show only optionally
+  - Tools: ability to recreate default tools
+- Spell checker: doesn't mark file names or directories as invalid
+- Windows installer: asks user whether to overwrite sourcetree:// URL handler,
+  if already present
+
+Fixed Bugs
+----------
+- Git:
+  - GitHub/Git-LFS: "unexpected end of JSON input" when using internal SSH
+    client
+  - Log:
+    - Details (Linux): right-click cleared selection
+    - pushable merge sources might have shown up as pushed
+  - Refresh: "~" as part of clean/smudge filter was not expanded correctly
+    (OS X/Linux)
+- Hg:
+  - Refresh: internal error if branch had \n in its name
+- SVN:
+  - Push: pushing branches with slashes is now rejected
+- File completion:
+  - double-click appended full path
+  - suggestions could contain duplicates when trying to commit same named files
+    from different directories
+- Spell checker: default dictionary was not found on OS X
+
+
+SmartGit 7.2 preview 3 (2016-03-30)
+===================================
+New Features, Improvements
+--------------------------
+- Git:
+  - Add Tag: the Push option now only pushes this tag, not all refs
+  - Branches:
+    - moved options from preferences to options popup menu
+    - optionally hide tracked remote branches for Git-Flow refs
+    - show ahead/behind information even if branch is non-tracking but
+      has a similar named remote branch
+  - Commit:
+    - spell checking
+    - the dialog allows to select between multiple possible commit
+      messages, e.g. default merge message or previous messages
+  - Push: uses --force-with-lease for checked forced push
+  - Reset (hard): allows to stash local changes, not just discard them
+  - Select Issue from JIRA: added speed-search
+
+Fixed Bugs
+----------
+- Git:
+  - Log: misleading error message when trying to open log for empty repository
+  - Push: remote.<name>.push had no precedence over push.default
+  - Refresh:
+    - possible internal error in case of invalid refs
+    - possible internal error in case of invalid stash-reflogs
+- SVN:
+  - Branches: ahead commits were broken
+- GUI:
+  - after Setup wizard no main window occurs
+- Java 1.9 preview: error about invalid parameter -XX:MaxJavaStackTraceDepth=-1
+
+
+SmartGit 7.2 preview 2 (2016-03-11)
+===================================
+Noteworthy Changes
+------------------
+- Linux: GTK3 is now the default. Please report all bugs and only switch back
+  to GTK2 (SWT_GTK3=0) if absolutely necessary.
+- updated SWT to version 4.614
+
+New Features, Improvements
+--------------------------
+- Git:
+  - Branches:
+    - better support for multi-level branch hierarchies
+    - ahead commits are not evaluated if push target != merge source
+  - Conflict Solver: if file is considered binary, it though can be forced to
+    be treated as text
+  - Fetch More: support for multiple remote.<name>.fetch configurations
+  - JIRA:
+    - Select Issue dialog: option to reset query to default
+  - Log:
+    - File, Directory log: memory consumption reduced significantly for large
+      repositories, e.g. Linux Kernel; added VM option "smartgit.log.onlyHead"
+  - Push (Gerrit-support): support for remote.<name>.push configuration
+- Hg:
+  - Support for Mercurial 3.7
+- GUI:
+  - Compare/Conflict Solver: ability to apply multiple lines to other pane
+  - rewrote (file) completion
+
+Fixed Bugs
+----------
+- SVN:
+  - Checkout: line ending correction did not work properly if "eol" attribute
+    was set, but "text" wan't
+- Linux:
+  - GTK3:
+    - Preferences, Built-In Text Editors: first tab is not drawn
+    - Setup wizard: wrong input field focused by default
+
+
+SmartGit 7.2 preview 1 (2016-02-18)
+===================================
+New Features, Improvements
+--------------------------
+- Add Branch and others: replace invalid characters with customizable valid
+  char: smartgit.branch.replaceInvalidCharsWith=_
+- Bitbucket, GitHub: support for URLs like
+  git@name1.github.com:accountname/repository.git
+- Push, JIRA Resolve:
+  - ability to configure which branch to (not) check
+    $ git config branch.<branchName> smartgitJiraResolve false
+  - shows issue description
+
+Fixed Bugs
+----------
+- Changes preview: reduced thread-creation when scrolling file table with
+  keyboard
+- JIRA: failed if bugtraq configuration contained invalid project keys
+- SSH: values from ~/.ssh/config were not applied correctly
+- Stash (on demand): don't try to stash submodule changes as this doesn't work

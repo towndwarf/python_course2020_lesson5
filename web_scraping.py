@@ -16,17 +16,18 @@ import matplotlib.ticker as ticker
 from urllib.request import urlopen
 
 
-def get_data(pageNo: str):
+def get_data(page_no: str):
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0",
                "Accept-Encoding": "gzip, deflate",
                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", "DNT": "1",
                "Connection": "close", "Upgrade-Insecure-Requests": "1"}
 
     url = 'https://www.waterstones.com/books/bestsellers/sort/bestselling/page/'
-    r = rq.get(url + pageNo, headers=headers)  # , proxies=proxies)
+    r = rq.get(url + page_no, headers=headers)  # , proxies=proxies)
     content = r.content
-    soup = BeautifulSoup(content)  # , 'features="lxml"'
-    # print(soup)
+    soup = BeautifulSoup(content, 'html.parser')  # , 'features="lxml"'
+    print(soup)
+    print(soup.prettify())
 
     alls = []
 

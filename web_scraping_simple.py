@@ -1,14 +1,14 @@
 from lxml import html
-import requests as web_scraping_base
+import requests as rq
 
-page = web_scraping_base.get('https://www.gutenberg.org/wiki/Gutenberg:Contact_Information')
+page = rq.get('https://www.gutenberg.org/wiki/Gutenberg:Contact_Information')
 print(page.content)
 tree = html.fromstring(page.content)  # use XPath and CSSSelect.
 # use http://www.w3schools.com/xml/xpath_intro.asp
 print(tree)
 
 # ============
-page = web_scraping_base.get('http://econpy.pythonanywhere.com/ex/001.html')
+page = rq.get('http://econpy.pythonanywhere.com/ex/001.html')
 tree = html.fromstring(page.content)
 # This will create a list of buyers:
 buyers = tree.xpath('//div[@title="buyer-name"]/text()')

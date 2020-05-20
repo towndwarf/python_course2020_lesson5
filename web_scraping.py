@@ -1,26 +1,13 @@
-# !pip3 install bs4
-# import beautifulsoup4
+import pandas as pd
 import requests as rq
 from bs4 import BeautifulSoup
-import pandas as pd
-
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-# %matplotlib inline
-import re
-import time
-from datetime import datetime
-import matplotlib.dates as mdates
-import matplotlib.ticker as ticker
-from urllib.request import urlopen
 
 
-def trim_quotes_if_required(input: str) -> str:
-    if input.find(',') < 0:
-        input = input.strip('"')
+def trim_quotes_if_required(book_name: str) -> str:
+    if book_name.find(',') < 0:
+        book_name = book_name.strip('"')
 
-    ret = input.strip('\',\r\n \xa0£')
+    ret = book_name.strip('\',\r\n \xa0£')
     if ret.find(',') > 0:
         ret = f'\"{ret}"'
     return ret
@@ -100,8 +87,7 @@ def get_data(page_no: str):
     return alls
 
 
-writable_lines = []
-writable_lines.append(','.join(['Book Name', 'Author', 'Rating', 'Price']) + "\n")
+writable_lines = [','.join(['Book Name', 'Author', 'Rating', 'Price']) + "\n"]
 
 no_pages = 2
 for i in range(1, no_pages + 1):
@@ -109,24 +95,17 @@ for i in range(1, no_pages + 1):
     for j in st:
         writable_lines.append(','.join(j) + "\n")
 
-# flatten = lambda l: [item for sublist in l for item in sublist]
-# flatten(results)
-# df = pd.DataFrame(results, columns=['Book Name', 'Author', 'Rating', 'Price'])
-# df.to_csv('books.csv', index=False, encoding='utf-8')
-
 handle = open("books.csv", mode="w", encoding="utf-8")
 handle.writelines(writable_lines)
 handle.close()
 
-# to read csv file named "samplee"
+# to read csv file named "books.csv"
 a = pd.read_csv("books.csv")
 
-# to save as html file
-# named as "Table"
+# to save as html file named "Table"
 s = a.to_html("Table.htm")
 
-# assign it to a
-# variable (string)
+# assign it to a variable (string)
 html_file = a.to_html()
 
 print('everything is awesome')
